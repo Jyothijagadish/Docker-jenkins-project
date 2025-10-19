@@ -2,7 +2,7 @@ pipeline{
 
     agent any
     environment{
-        DOCKER_IMAGE='jyothijagadish/docker-jenkins-project:latest'
+        DOCKER_IMAGE='akashjyothi/docker-jenkins-project:latest'
     }
     tools{
         maven 'maven'
