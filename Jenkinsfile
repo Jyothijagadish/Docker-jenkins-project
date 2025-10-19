@@ -29,6 +29,15 @@ pipeline{
                 sh 'docker build -t $DOCKER_IMAGE .' 
             }
         }
+        stage('containerization'){
+            steps{
+                sh '''
+                docker stop c1 || true
+                docker rm c1 || true
+                docker run -d --name c1 -p 9000:8080 $DOCKER_IMAGE
+                '''
+             }
+            }
         stage('Docker push'){
             steps{
                 script{
