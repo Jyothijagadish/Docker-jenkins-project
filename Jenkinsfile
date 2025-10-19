@@ -1,7 +1,9 @@
 pipeline{
 
     agent any
-
+    environment{
+        DOCKER_IMAGE='jyothijagadish/docker-jenkins-project:latest'
+    }
     tools{
         maven 'maven'
         jdk 'java-11'
@@ -20,6 +22,11 @@ pipeline{
         stage('maven-build'){
             steps{
                 sh  'mvn clean install'
+            }
+        }
+        stage('Docker build'){
+            steps{
+                sh 'docker build -t $DOCKER_IMAGE' .
             }
         }
     }
