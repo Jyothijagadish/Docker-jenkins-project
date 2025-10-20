@@ -52,13 +52,13 @@ pipeline{
             }
         }
     }
-
-}
-post{
+ post{
     success{
     echo 'kubernetes deployment successful'
     }
     failure{
      echo 'kubernetes deployment failed'   
    }
+ }
 }
+
