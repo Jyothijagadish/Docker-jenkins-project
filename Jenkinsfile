@@ -2,7 +2,7 @@ pipeline{
 
     agent any
     environment{
-        DOCKER_IMAGE='akashjyothi/docker-jenkins-project:latest'
+        DOCKER_IMAGE='jyothijagadish/docker-jenkins-project:latest'
     }
     tools{
         maven 'maven'
@@ -29,15 +29,6 @@ pipeline{
                 sh 'docker build -t $DOCKER_IMAGE .' 
             }
         }
-        stage('containerization'){
-            steps{
-                sh '''
-                docker stop c1 || true
-                docker rm c1 || true
-                docker run -d --name c1 -p 9000:8080 $DOCKER_IMAGE
-                '''
-             }
-            }
         stage('Docker push'){
             steps{
                 script{
@@ -48,6 +39,28 @@ pipeline{
                 }
             }
         }
+        stage('Delpoy to kubernetes'){
+            steps{
+              withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'kubernetes', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
+              sh '''
+              echo 'sowing file for debugging'
+              ls -l k8s
+              eho 'applying deployment file'
+              kubectl apply -f k8s/deployment.yml
+              echo 'applying service file'
+              kubectl apply -f k8s/svc.yml
+              '''
+             }  
+            }
+        }
     }
 
+}
+post{
+    success{
+    echo 'kubernetes deployment successful'
+    }
+    failure{
+     echo 'kubernetes deployment failed'   
+   }
 }
