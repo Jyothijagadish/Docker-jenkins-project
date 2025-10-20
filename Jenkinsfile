@@ -43,12 +43,10 @@ pipeline{
             steps{
               withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'kubernetes', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
               sh '''
-              echo 'sowing file for debugging'
-              ls -l k8s
-              eho 'applying deployment file'
-              kubectl apply -f k8s/deployment.yml
+              echo 'applying deployment file'
+              kubectl apply -f deployment.yml
               echo 'applying service file'
-              kubectl apply -f k8s/svc.yml
+              kubectl apply -f svc.yml
               '''
              }  
             }
