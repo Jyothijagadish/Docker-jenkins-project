@@ -2,7 +2,7 @@ pipeline{
 
     agent any
     environment{
-        DOCKER_IMAGE='jyothijagadish/docker-jenkins-project:latest'
+        DOCKER_IMAGE='jyothijagadish/docker-jenkins-project'
     }
     tools{
         maven 'maven'
@@ -34,7 +34,7 @@ pipeline{
                 script{
                     withCredentials([usernamePassword(credentialsId: 'Docker', passwordVariable: 'DOCKER_PASS', usernameVariable: 'DOCKER_USER')]) {
                         sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
-                        sh 'docker push $DOCKER_IMAGE'
+                        sh 'docker push $DOCKER_IMAGE:latest'
 }
                 }
             }
